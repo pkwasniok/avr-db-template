@@ -1,4 +1,4 @@
-# Config
+# Configuration
 MCU = avr128db28
 PROGRAMMER = snap
 
@@ -13,6 +13,9 @@ CFLAGS += -isystem ./lib/atpack/include
 CFLAGS += -mmcu=$(MCU)
 CFLAGS += -Os
 
+# Others
+OUTDIR = .build
+
 
 
 build: firmware.bin
@@ -21,13 +24,16 @@ upload: build
 	avrdude -c $(PROGRAMMER) -p $(MCU) -U flash:w:./build/firmware.bin:r
 
 clean:
-	rm -r build/*
+	rm -r $(OUTDIR)/*
+
+
 
 firmware.bin: firmware.elf
-	$(OBJCOPY) -O binary build/firmware.elf build/firmware.bin
+	$(OBJCOPY) -O binary $(OUTDIR)/firmware.elf $(OUTDIR)/firmware.bin
 
-firmware.elf: main.o
-	$(GCC) $(CFLAGS) build/main.o -o build/firmware.elf
+firmware.elf: src/main.o
+	$(GCC) $(CFLAGS) $(addprefix $(OUTDIR)/, $(^)) -o $(OUTDIR)/$(@)
 
-main.o:
-	$(GCC) $(CFLAGS) -c src/main.c -o build/main.o
+%.o: %.c
+	mkdir -p $(OUTDIR)/$(@D)
+	$(GCC) $(CFLAGS) -c $(^) -o $(OUTDIR)/$(@)
