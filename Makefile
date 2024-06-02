@@ -21,7 +21,7 @@ OUTDIR = .build
 build: firmware.bin
 
 upload: build
-	avrdude -c $(PROGRAMMER) -p $(MCU) -U flash:w:./build/firmware.bin:r
+	avrdude -c $(PROGRAMMER) -p $(MCU) -U flash:w:$(OUTDIR)/firmware.bin:r
 
 clean:
 	rm -r $(OUTDIR)/*
