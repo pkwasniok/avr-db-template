@@ -9,17 +9,25 @@
 ### Tools
  - [avr-gcc](https://gcc.gnu.org/wiki/avr-gcc)
  - [avrdude](https://github.com/avrdudes/avrdude)
+ - [minicom](https://man.archlinux.org/man/minicom.1.en)
+ - [doxygen](https://doxygen.nl/)
 
 ### Atpacks
  - [Microchip Packs Repository](https://packs.download.microchip.com/)
 
-## Versions
- - avr-gcc - 14.1.0
- - avrdude - 7.3
- - avr-libc - 2.1.0-3
- - Microchip AVR-Dx Series Device Support - 2.5.294
-
 ## Usage
+
+### Building
  - `make build` - Build project
- - `make upload` - Build and upload project to target device
- - `make clean` - Clean build artefacts
+ - `make build-upload` - Build and upload project to target device
+ - `make build-clean` - Clean build artifacts
+
+### Debugging
+ - `make debug-memusage` - Print binary's memory usage
+
+### Serial
+ - `make serial-monitor` - Open serial monitor (config: SERIAL_PORT, SERIAL_BAUDARATE)
+
+### Docs
+- `make docs-build` - Build docs
+- `make docs-clean` - Clean docs building artifacts

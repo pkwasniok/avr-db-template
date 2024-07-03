@@ -1,6 +1,11 @@
-# Configuration
+# Project configuration
 MCU = avr128db28
 PROGRAMMER = snap
+TARGET = src/main
+
+# Serial configuration
+SERIAL_PORT = /dev/ttyACM1
+SERIAL_BAUDRATE = 115200
 
 # Tools
 GCC = avr-gcc
@@ -20,11 +25,23 @@ OUTDIR = .build
 
 build: firmware.bin
 
-upload: build
+build-upload: build
 	avrdude -c $(PROGRAMMER) -p $(MCU) -U flash:w:$(OUTDIR)/firmware.bin:r
 
-clean:
+build-clean:
 	rm -r $(OUTDIR)/*
+
+debug-memusage:
+	avr-objdump -Pmem-usage $(OUTDIR)/firmware.elf
+
+serial-monitor:
+	minicom --device $(SERIAL_PORT) --baudrate $(SERIAL_BAUDRATE) --ansi --statlinefmt "%D %b"
+
+docs-build:
+	doxygen
+
+docs-clean:
+	rm -r .docs/*
 
 
 
